@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BUDI95 Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <header>
+      <p class="site-tagline">Malaysian Fuel Subsidy Calculator</p>
+      <div class="logo">BUDI<span>95</span></div>
+      <p class="subtitle">Check your petrol subsidy instantly</p>
+    </header>
+
+    <main>
+      <div class="calculator-card">
+        <!-- Toggle Switch -->
+        <div class="mode-toggle-container">
+          <input type="checkbox" id="mode-toggle" class="mode-checkbox">
+          <label for="mode-toggle" class="mode-label">
+            <span class="mode-option" data-mode="money">RM</span>
+            <span class="mode-option" data-mode="liters">Liters</span>
+            <div class="mode-indicator"></div>
+          </label>
+        </div>
+
+        <!-- Input Section -->
+        <div class="input-section">
+          <label for="amount-input" id="input-label">Amount (RM)</label>
+          <div class="input-wrapper">
+            <span class="currency-prefix" id="input-prefix">RM</span>
+            <input type="number" id="amount-input" placeholder="0.00" step="0.01" min="0" autocomplete="off">
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+          <div class="result-row primary">
+            <span class="result-label" id="primary-result-label">Est. Fuel</span>
+            <span class="result-value" id="primary-result-value">0.00 <small>L</small></span>
+          </div>
+
+          <!-- Subsidy Savings First -->
+          <div class="result-row secondary">
+            <span class="result-label" id="secondary-result-label">Subsidy Savings</span>
+            <span class="result-value savings" id="subsidy-value">RM 0.00</span>
+          </div>
+
+          <!-- Divider -->
+          <div class="result-divider"></div>
+
+          <!-- NEW: Final Prices -->
+          <div class="result-row highlight" id="total-value-row">
+            <span class="result-label">Final Prices <small>(Total Value)</small></span>
+            <span class="result-value total-real" id="total-real-value">RM 0.00</span>
+          </div>
+
+          <div class="price-breakdown">
+            <div class="price-item">
+              <span>Subsidized Price</span>
+              <span id="subsidized-price-display">RM 2.05/L</span>
+            </div>
+            <div class="price-item market">
+              <span>Market Price</span>
+              <span id="market-price-display">RM 2.65/L</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NEW: Graph Section -->
+      <div class="graph-card">
+        <h3>Price Trends (Past 3 Months)</h3>
+        <div class="chart-container">
+          <canvas id="priceChart"></canvas>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Prices updated as of <span id="price-date">Loading...</span></p>
+      <p>Data source: data.gov.my</p>
+      <!-- NEW: Disclaimer -->
+      <p class="disclaimer">
+        <strong>Disclaimer:</strong> This website is an independent tool and is <strong>not affiliated with the
+          Government of Malaysia</strong>. It is intended for use by Malaysian residents only. The developer is not
+        responsible for any direct or indirect damages, losses, or harm arising from the use of this website.
+        Calculations are for estimation purposes only.
+      </p>
+
+      <!-- NEW: Visitor Counter -->
+      <div class="visitor-counter">
+        <span>Visitor #</span>
+        <span id="visitor-count">...</span>
+      </div>
+      <p class="version">v0.1 Alpha</p>
+    </footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

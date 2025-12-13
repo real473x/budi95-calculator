@@ -1,0 +1,405 @@
+:root {
+  --primary: #00d2ff;
+  --secondary: #3a7bd5;
+  --accent: #ff4d4d;
+  --text: #ffffff;
+  --text-dim: #a0a0a0;
+  --bg-dark: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --input-bg: rgba(0, 0, 0, 0.2);
+  --border: rgba(255, 255, 255, 0.1);
+  --success: #00ff88;
+  --warning: #fbbf24;
+
+  --font-family: 'Outfit', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-dark);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Initial alignment */
+  background: radial-gradient(circle at top left, #1e293b, #0f172a);
+  overflow-x: hidden;
+  padding: 40px 0;
+  /* Add padding for when content grows */
+}
+
+/* Background Mesh */
+body::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(80px);
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(58, 123, 213, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(80px);
+}
+
+#app {
+  width: 100%;
+  max-width: 480px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+
+header {
+  text-align: center;
+}
+
+.site-tagline {
+  color: var(--primary);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.logo {
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.logo span {
+  font-weight: 300;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  margin-top: 5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Cards */
+.calculator-card,
+.graph-card {
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Graph Card Specifics */
+.graph-card {
+  margin-top: 30px;
+  /* Add requested gap */
+  padding: 20px;
+}
+
+.graph-card h3 {
+  font-size: 1rem;
+  color: var(--text-dim);
+  margin-bottom: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.chart-container {
+  position: relative;
+  height: 200px;
+  /* Reduced height for mobile calculator feel */
+  width: 100%;
+}
+
+/* Toggle Switch */
+.mode-toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.mode-checkbox {
+  display: none;
+}
+
+.mode-label {
+  position: relative;
+  display: flex;
+  width: 200px;
+  height: 44px;
+  background: var(--input-bg);
+  border-radius: 22px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.mode-option {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+  color: var(--text-dim);
+}
+
+.mode-checkbox:not(:checked)~.mode-label .mode-option[data-mode="money"] {
+  color: var(--bg-dark);
+}
+
+.mode-checkbox:checked~.mode-label .mode-option[data-mode="liters"] {
+  color: var(--bg-dark);
+}
+
+.mode-indicator {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: var(--primary);
+  border-radius: 18px;
+  transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+  z-index: 1;
+}
+
+.mode-checkbox:checked~.mode-label .mode-indicator {
+  transform: translateX(100%);
+  background: var(--secondary);
+}
+
+/* Input Section */
+.input-section {
+  margin-bottom: 30px;
+}
+
+#input-label {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  /* Align prefix with text baseline */
+  background: transparent;
+  border-bottom: 2px solid var(--border);
+  padding: 10px 0;
+  transition: border-color 0.3s;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--primary);
+}
+
+.currency-prefix {
+  font-size: 1.5rem;
+  color: var(--text-dim);
+  margin-right: 10px;
+  margin-bottom: 5px;
+  /* Visual alignment */
+}
+
+#amount-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-family: var(--font-family);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+  outline: none;
+  padding: 0;
+}
+
+#amount-input::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* Results Section */
+.results-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Hide rows dynamically */
+.result-row[style*="display: none"] {
+  display: none !important;
+}
+
+.result-label {
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+.result-value {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+#primary-result-value small {
+  font-size: 1rem;
+  color: var(--text-dim);
+}
+
+.result-value.savings {
+  color: var(--success);
+  font-size: 1.2rem;
+}
+
+/* Result Divider */
+.result-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+  opacity: 0.5;
+}
+
+/* Highlight Row (Final Prices) */
+.result-row.highlight {
+  margin-top: 5px;
+}
+
+.result-row.highlight .result-label {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.result-row.highlight .result-label small {
+  font-weight: 400;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.result-value.total-real {
+  color: var(--primary);
+  /* Use Primary Blue for emphasis */
+  font-size: 1.8rem;
+  /* Make it bigger */
+  text-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+  /* Glow effect */
+}
+
+.price-breakdown {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.price-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.price-item span:first-child {
+  color: var(--text-dim);
+}
+
+.price-item span:last-child {
+  font-weight: 600;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  opacity: 0.7;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.disclaimer {
+  font-size: 0.7rem;
+  opacity: 0.6;
+  max-width: 400px;
+  margin: 30px auto 10px;
+  line-height: 1.4;
+}
+
+.visitor-counter {
+  display: inline-flex;
+  gap: 5px;
+  background: var(--input-bg);
+  padding: 5px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-family: monospace;
+  font-size: 0.8rem;
+  margin: 5px auto;
+}
+
+.version {
+  font-size: 0.65rem;
+  opacity: 0.4;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+    /* Better scrolling on small mobile */
+  }
+
+  .logo {
+    font-size: 2.5rem;
+  }
+
+  .calculator-card,
+  .graph-card {
+    padding: 20px;
+  }
+}
