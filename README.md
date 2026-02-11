@@ -2,6 +2,9 @@
 
 A responsive, modern web application designed to help Malaysian residents estimate their petrol subsidy savings under the new BUDI95 initiative.
 
+![BUDI95 Calculator Preview 1](public/Preview-1.png)
+![BUDI95 Calculator Preview 2](public/Preview-2.png)
+
 ## Features
 
 *   **Dynamic Subsidy Calculation**: Instantly calculate estimated fuel volume and subsidy savings based on your RM input.
@@ -42,7 +45,7 @@ A responsive, modern web application designed to help Malaysian residents estima
     npm run dev
     ```
 
-4.  Open your browser and navigate to `http://localhost:5173` (or the URL shown in your terminal).
+4.  Open your browser and navigate to `http://localhost:XXXX` (or the URL shown in your terminal).
 
 ## Disclaimer
 
