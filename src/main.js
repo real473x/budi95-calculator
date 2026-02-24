@@ -39,8 +39,8 @@ const elements = {
 
 async function fetchPricesAndGraph() {
   try {
-    // Fetch improved limit for graph history
-    const response = await fetch('https://api.data.gov.my/data-catalogue?id=fuelprice&limit=12'); // Approx 3 months
+    // Fetch improved limit for graph history (12 items usually covers ~3 months of weekly updates)
+    const response = await fetch('https://api.data.gov.my/data-catalogue?id=fuelprice&limit=12');
     const data = await response.json();
 
     if (data && data.length > 0) {
@@ -49,7 +49,13 @@ async function fetchPricesAndGraph() {
       state.subsidizedPrice = latest.ron95_budi95 || latest.ron95_skps || DEFAULTS.ron95_subsidized;
       state.marketPrice = latest.ron95 || DEFAULTS.ron95_market;
 
-      updatePriceDisplay(latest.date);
+      // Calculate date 3 months after today (2026-02-25)
+      const today = new Date('2026-02-25');
+      const futureDate = new Date(today);
+      futureDate.setMonth(today.getMonth() + 3);
+      const displayDate = futureDate.toISOString().split('T')[0];
+
+      updatePriceDisplay(displayDate);
       calculate(); // Recalculate with new prices
 
       // Render Graph
@@ -57,8 +63,11 @@ async function fetchPricesAndGraph() {
     }
   } catch (error) {
     console.error('Failed to fetch prices:', error);
-    // Keep defaults
-    updatePriceDisplay(DEFAULTS.date);
+    // Fallback to 3 months after today even if fetch fails, but use default prices
+    const today = new Date('2026-02-25');
+    const futureDate = new Date(today);
+    futureDate.setMonth(today.getMonth() + 3);
+    updatePriceDisplay(futureDate.toISOString().split('T')[0]);
   }
 }
 
